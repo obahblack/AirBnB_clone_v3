@@ -113,6 +113,7 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+<<<<<<< HEAD
 
     @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
                      "not testing file storage")
@@ -137,3 +138,5 @@ class TestFileStorage(unittest.TestCase):
         new_state.save()
         self.assertEqual(storage.count(), initial_length + 1)
         self.assertEqual(storage.count("State"), state_len + 1)
+=======
+>>>>>>> master
