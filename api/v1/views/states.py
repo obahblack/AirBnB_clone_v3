@@ -2,7 +2,7 @@
 """state.py"""
 
 from api.v1.views import app_views
-from flask import abort, jsonify, make_reponse, request
+from flask import abort, jsonify, make_response, request
 from models import storage
 from models.state import State
 
@@ -37,9 +37,9 @@ def delete_state(state_id):
 def post_state():
     """create a new state"""
     if not request.get_json():
-        return make_reponse(jsonify({'error': 'Not a JSON'}), 400)
+        return make_response(jsonify({'error': 'Not a JSON'}), 400)
     if 'name' not in request.get_json():
-        return make_request(jsonify({'error': 'Missing name'}), 400)
+        return make_response(jsonify({'error': 'Missing name'}), 400)
     state = State(**request.get_json())
     state.save()
     return make_reponse(jsonify(state.to_dict()), 201)
@@ -52,7 +52,7 @@ def put_state(state_id):
     if state is None:
         abort(404)
     if not request.get_json():
-        return make_reponse(jsonify({'error': 'Not a JSON'}), 400)
+        return make_response(jsonify({'error': 'Not a JSON'}), 400)
     for attr, val in request.get_json().items():
         if attr not in ['id', 'created_at', 'updated_at']:
             setattr(state, attr, val)
