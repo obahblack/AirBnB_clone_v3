@@ -1,25 +1,33 @@
 #!/usr/bin/python3
-"""app for registering blueprint and startin flask"""
-from flask import Flask, make_response, jsonify
-from flask_cors import CORS
-from models import storage
+"""index.py to connect to API"""
 from api.v1.views import app_views
-from os import getenv
+from flask import Flask, Blueprint, jsonify
+from models import storage
 
-app = Flask(__name__)
-CORS(app, origins="0.0.0.0")
-app.register_blueprint(app_views)
 
-@app.teardown_appcontext
-def tear_down(self):
-    """close quesry after each session"""
-    storage.close()
+hbnbText = {
+    "amenities": "Amenity",
+    "cities": "City",
+    "places": "Place",
+    "reviews": "Review",
+    "states": "State",
+    "users": "User"
+}
 
-@app.errorhandler(404)
-def not_found(error):
-    """return JSON formatted $)$ status code response"""
-    return make_response(jsonify({"error": "Not found"}), 404)
+
+@app_views.route('/status', strict_slashes=False)
+def hbnbStatus():
+    """hbnbStatus"""
+    return jsonify({"status": "OK"})
+
+
+@app_views.route('/stats', strict_slashes=False)
+def hbnbStats():
+    """hbnbStats"""
+    return_dict = {}
+    for key, value in hbnbText.items():
+        return_dict[key] = storage.count(value)
+    return jsonify(return_dict)
 
 if __name__ == "__main__":
-    app.run(host=getenv("HBNB_API_HOST", "0.0.0.0"),
-            port=int(getenv("HBNB_API_PORT", "5000")), threaded=True)
+    pass
