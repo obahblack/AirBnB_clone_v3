@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 """index.py to connect to API"""
-import os
-from models import storage
 from api.v1.views import app_views
 from flask import Flask, Blueprint, jsonify, make_response
-from flask_cors import CORS
+from models import storage
+import os
+
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
